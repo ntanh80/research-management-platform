@@ -21,6 +21,7 @@ export default function RoleListPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [searchText, setSearchText] = useState('');
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const createMutation = useMutation({
     mutationFn: (data: RoleCreate) => rolesApi.createRole(data),
@@ -85,6 +86,11 @@ export default function RoleListPage() {
     } else {
       await createMutation.mutateAsync(values as RoleCreate);
     }
+  };
+
+  const handleRefresh = () => {
+    setRefreshKey(k => k + 1);
+    queryClient.invalidateQueries({ queryKey: ['roles'] });
   };
 
   const fetchRoles = useCallback(
@@ -168,6 +174,7 @@ export default function RoleListPage() {
         title="Vai trò"
         createPermission="roles.create"
         onCreate={handleCreate}
+        onRefresh={handleRefresh}
       />
 
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>

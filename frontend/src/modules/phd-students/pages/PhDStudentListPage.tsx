@@ -45,6 +45,7 @@ export default function PhDStudentListPage() {
   const [filterStatus, setFilterStatus] = useState<string | undefined>();
   const [filterCohort, setFilterCohort] = useState<string | undefined>();
   const [filterMajor, setFilterMajor] = useState<string | undefined>();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const { data: summaryData, isLoading: summaryLoading } = useQuery({
     queryKey: ['phd-students-summary'],
@@ -117,6 +118,11 @@ export default function PhDStudentListPage() {
     } else {
       await createMutation.mutateAsync(values as PhDStudentCreate);
     }
+  };
+
+  const handleRefresh = () => {
+    setRefreshKey(k => k + 1);
+    queryClient.invalidateQueries({ queryKey: ['phd-students'] });
   };
 
   const fetchStudents = useCallback(
@@ -297,6 +303,7 @@ export default function PhDStudentListPage() {
         title="Nghiên cứu sinh"
         createPermission="phd_students.create"
         onCreate={handleCreate}
+        onRefresh={handleRefresh}
       />
 
       {summaryLoading ? (

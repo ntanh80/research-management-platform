@@ -22,6 +22,7 @@ export default function DepartmentListPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
   const [searchText, setSearchText] = useState('');
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const { data: lecturersData } = useQuery({
     queryKey: ['lecturers-all'],
@@ -95,6 +96,11 @@ export default function DepartmentListPage() {
     }
   };
 
+  const handleRefresh = () => {
+    setRefreshKey(k => k + 1);
+    queryClient.invalidateQueries({ queryKey: ['departments'] });
+  };
+
   const fetchDepartments = useCallback(
     async (params: {
       page?: number;
@@ -153,10 +159,6 @@ export default function DepartmentListPage() {
       sorter: true,
       render: (date: string) => formatDateTime(date),
     },
-      dataIndex: 'created_at',
-      key: 'created_at',
-      render: (date: string) => formatDateTime(date),
-    },
     {
       title: 'Thao tác',
       key: 'actions',
@@ -188,6 +190,7 @@ export default function DepartmentListPage() {
         title="Khoa / Bộ môn"
         createPermission="departments.create"
         onCreate={handleCreate}
+        onRefresh={handleRefresh}
       />
 
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>

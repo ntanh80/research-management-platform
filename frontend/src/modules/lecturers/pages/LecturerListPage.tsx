@@ -34,6 +34,7 @@ export default function LecturerListPage() {
   const [selectedLecturer, setSelectedLecturer] = useState<Lecturer | null>(null);
   const [searchText, setSearchText] = useState('');
   const [filterDept, setFilterDept] = useState<number | undefined>();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const { data: summaryData, isLoading: summaryLoading } = useQuery({
     queryKey: ['lecturers-summary'],
@@ -113,6 +114,11 @@ export default function LecturerListPage() {
     } else {
       await createMutation.mutateAsync(values as LecturerCreate);
     }
+  };
+
+  const handleRefresh = () => {
+    setRefreshKey(k => k + 1);
+    queryClient.invalidateQueries({ queryKey: ['lecturers'] });
   };
 
   const fetchLecturers = useCallback(
@@ -218,6 +224,7 @@ export default function LecturerListPage() {
         title="Giảng viên"
         createPermission="lecturers.create"
         onCreate={handleCreate}
+        onRefresh={handleRefresh}
       />
 
       {summaryLoading ? (

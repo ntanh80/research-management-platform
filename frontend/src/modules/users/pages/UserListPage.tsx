@@ -39,6 +39,7 @@ export default function UserListPage() {
   const [searchText, setSearchText] = useState('');
   const [filterDept, setFilterDept] = useState<number | undefined>();
   const [filterActive, setFilterActive] = useState<boolean | undefined>();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const { data: departmentsData } = useQuery({
     queryKey: ['departments'],
@@ -132,6 +133,11 @@ export default function UserListPage() {
     } else {
       await createMutation.mutateAsync(values as UserCreate);
     }
+  };
+
+  const handleRefresh = () => {
+    setRefreshKey(k => k + 1);
+    queryClient.invalidateQueries({ queryKey: ['users'] });
   };
 
   const fetchUsers = useCallback(
@@ -251,6 +257,7 @@ export default function UserListPage() {
         title="Người dùng"
         createPermission="users.create"
         onCreate={handleCreate}
+        onRefresh={handleRefresh}
         extraActions={[
           {
             key: 'search',

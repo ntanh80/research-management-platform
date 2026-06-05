@@ -58,10 +58,26 @@ async def list_lecturers(
     if department_id: query = query.filter(Lecturer.department_id == department_id)
     if status: query = query.filter(Lecturer.status == status)
     total = query.count()
-    pagination = PaginationParams(page, page_size)
-    query = apply_sorting(query, Lecturer, sort_by, sort_order)
-    query = apply_pagination(query, pagination)
-    lecturers = query.all()
+
+    # Sort by tên (last word) for full_name, otherwise use standard sorting
+    if sort_by == "full_name":
+        all_lecturers = query.all()
+        reverse = sort_order.upper() == "DESC"
+        all_lecturers.sort(
+            key=lambda l: (
+                l.full_name.strip().split()[-1].lower() if l.full_name.strip() else "",
+                l.full_name.lower(),
+            ),
+            reverse=reverse,
+        )
+        pagination = PaginationParams(page, page_size)
+        lecturers = all_lecturers[pagination.offset : pagination.offset + pagination.limit]
+    else:
+        pagination = PaginationParams(page, page_size)
+        query = apply_sorting(query, Lecturer, sort_by, sort_order)
+        query = apply_pagination(query, pagination)
+        lecturers = query.all()
+
     return paginated_response(
         data=[LecturerResponse.model_validate(l).model_dump() for l in lecturers],
         pagination=create_pagination(page, page_size, total),
