@@ -20,14 +20,15 @@ export default function LoginPage() {
 
     try {
       const loginRes = await authApi.login(values.username, values.password);
-      setTokens(loginRes.data.access_token, loginRes.data.refresh_token);
+      const { access_token, refresh_token } = loginRes.data;
+      setTokens(access_token, refresh_token);
 
-      const [meRes, permRes] = await Promise.all([
+      const [meRes] = await Promise.all([
         authApi.getMe(),
-        authApi.getMyPermissions(),
       ]);
 
-      setUser(meRes.data, permRes.data);
+      const meData = meRes.data;
+      setUser(meData.user, meData.permissions);
       navigate('/');
     } catch (err: unknown) {
       const message =
