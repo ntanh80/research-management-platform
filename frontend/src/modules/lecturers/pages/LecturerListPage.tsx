@@ -167,20 +167,20 @@ export default function LecturerListPage() {
       key: 'email',
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status: boolean) =>
         status ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
     {
-      title: 'Created',
+      title: 'Ngày tạo',
       dataIndex: 'created_at',
       key: 'created_at',
       render: (date: string) => formatDateTime(date),
     },
     {
-      title: 'Actions',
+      title: 'Thao tác',
       key: 'actions',
       render: (_: unknown, record: Lecturer) => (
         <Space>
@@ -224,8 +224,6 @@ export default function LecturerListPage() {
             <span style={{ color: '#666', marginRight: 4 }}>Hoạt động:</span>
             <b style={{ color: '#3f8600' }}>{summaryData.data.active}</b>
           </Col>
-        </Row>
-      ) : null}
         </Row>
       ) : null}
 
