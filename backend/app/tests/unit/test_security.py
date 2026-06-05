@@ -42,14 +42,14 @@ class TestPasswordHashing:
 
 class TestJWT:
     def test_access_token_create_and_decode(self):
-        token = create_access_token({"sub": 1, "username": "admin"})
+        token = create_access_token({"sub": "1", "username": "admin"})
         payload = decode_token(token)
         assert payload is not None
-        assert payload["sub"] == 1
+        assert payload["sub"] == "1"
         assert payload["type"] == "access"
 
     def test_refresh_token_create_and_decode(self):
-        token = create_refresh_token({"sub": 1, "username": "admin"})
+        token = create_refresh_token({"sub": "1", "username": "admin"})
         payload = decode_token(token)
         assert payload is not None
         assert payload["type"] == "refresh"
@@ -59,6 +59,6 @@ class TestJWT:
         assert payload is None
 
     def test_token_type_is_access(self):
-        token = create_access_token({"sub": 1})
+        token = create_access_token({"sub": "1"})
         payload = decode_token(token)
         assert payload["type"] == "access"
