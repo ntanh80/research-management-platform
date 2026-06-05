@@ -139,20 +139,26 @@ export default function DepartmentListPage() {
       },
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
+      sorter: true,
       render: (status: boolean) =>
         status ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
     {
-      title: 'Created',
+      title: 'Ngày tạo',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      sorter: true,
+      render: (date: string) => formatDateTime(date),
+    },
       dataIndex: 'created_at',
       key: 'created_at',
       render: (date: string) => formatDateTime(date),
     },
     {
-      title: 'Actions',
+      title: 'Thao tác',
       key: 'actions',
       render: (_: unknown, record: Department) => (
         <Space>

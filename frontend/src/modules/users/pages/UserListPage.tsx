@@ -184,6 +184,7 @@ export default function UserListPage() {
       title: 'Trạng thái',
       dataIndex: 'is_active',
       key: 'is_active',
+      sorter: true,
       render: (active: boolean) =>
         active ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
@@ -191,12 +192,14 @@ export default function UserListPage() {
       title: 'Lần cuối đăng nhập',
       dataIndex: 'last_login_at',
       key: 'last_login_at',
+      sorter: true,
       render: (date: string | null) => formatDateTime(date),
     },
     {
       title: 'Ngày tạo',
       dataIndex: 'created_at',
       key: 'created_at',
+      sorter: true,
       render: (date: string) => formatDateTime(date),
     },
     {

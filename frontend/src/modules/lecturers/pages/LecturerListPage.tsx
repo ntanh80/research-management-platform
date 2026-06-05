@@ -153,16 +153,19 @@ export default function LecturerListPage() {
       title: 'Học hàm',
       dataIndex: 'academic_title',
       key: 'academic_title',
+      sorter: true,
     },
     {
       title: 'Học vị',
       dataIndex: 'degree',
       key: 'degree',
+      sorter: true,
     },
     {
       title: 'Khoa/Bộ môn',
       dataIndex: 'department_id',
       key: 'department_id',
+      sorter: true,
       render: (_: unknown, record: Lecturer) => {
         if (!record.department_id) return '-';
         const dept = departments.find((d) => d.id === record.department_id);
@@ -170,14 +173,10 @@ export default function LecturerListPage() {
       },
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
+      sorter: true,
       render: (status: boolean) =>
         status ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
@@ -185,6 +184,7 @@ export default function LecturerListPage() {
       title: 'Ngày tạo',
       dataIndex: 'created_at',
       key: 'created_at',
+      sorter: true,
       render: (date: string) => formatDateTime(date),
     },
     {
