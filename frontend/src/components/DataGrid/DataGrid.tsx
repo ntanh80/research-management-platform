@@ -90,7 +90,7 @@ export default function DataGrid<T extends Record<string, unknown>>({
     pageSize,
     total: data?.pagination?.total || 0,
     showSizeChanger: true,
-    showTotal: (total) => `Total ${total} items`,
+    showTotal: (total) => `Tổng: ${total} mục`,
   };
 
   const rowSelection: TableRowSelection<T> | undefined =
@@ -116,7 +116,7 @@ export default function DataGrid<T extends Record<string, unknown>>({
           {actions}
           {showRefresh && (
             <Button icon={<ReloadOutlined />} onClick={() => refetch()}>
-              Refresh
+              Làm mới
             </Button>
           )}
         </Space>
@@ -135,7 +135,7 @@ export default function DataGrid<T extends Record<string, unknown>>({
         rowSelection={rowSelection}
         scroll={{ x: 'max-content' }}
         locale={{
-          emptyText: <EmptyState description="No data available" />,
+          emptyText: <EmptyState description="Không có dữ liệu" />,
         }}
       />
     </div>

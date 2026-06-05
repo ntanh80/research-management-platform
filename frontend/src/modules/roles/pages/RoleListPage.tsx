@@ -24,7 +24,7 @@ export default function RoleListPage() {
   const createMutation = useMutation({
     mutationFn: (data: RoleCreate) => rolesApi.createRole(data),
     onSuccess: () => {
-      message.success('Role created successfully');
+      message.success('Vai trò đã được tạo');
       queryClient.invalidateQueries({ queryKey: ['roles'] });
       setModalOpen(false);
     },
@@ -32,7 +32,7 @@ export default function RoleListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to create role';
+          : 'Tạo vai trò thất bại';
       message.error(msg);
     },
   });
@@ -41,7 +41,7 @@ export default function RoleListPage() {
     mutationFn: ({ id, data }: { id: number; data: RoleUpdate }) =>
       rolesApi.updateRole(id, data),
     onSuccess: () => {
-      message.success('Role updated successfully');
+      message.success('Vai trò đã được cập nhật');
       queryClient.invalidateQueries({ queryKey: ['roles'] });
       setModalOpen(false);
     },
@@ -49,7 +49,7 @@ export default function RoleListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to update role';
+          : 'Cập nhật vai trò thất bại';
       message.error(msg);
     },
   });
@@ -57,11 +57,11 @@ export default function RoleListPage() {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => rolesApi.deleteRole(id),
     onSuccess: () => {
-      message.success('Role deleted successfully');
+      message.success('Vai trò đã được xóa');
       queryClient.invalidateQueries({ queryKey: ['roles'] });
     },
     onError: () => {
-      message.error('Failed to delete role');
+      message.error('Xóa vai trò thất bại');
     },
   });
 
@@ -101,19 +101,19 @@ export default function RoleListPage() {
 
   const columns = [
     {
-      title: 'Code',
+      title: 'Mã',
       dataIndex: 'code',
       key: 'code',
       sorter: true,
     },
     {
-      title: 'Name',
+      title: 'Tên',
       dataIndex: 'name',
       key: 'name',
       sorter: true,
     },
     {
-      title: 'Description',
+      title: 'Mô tả',
       dataIndex: 'description',
       key: 'description',
       ellipsis: true,
@@ -123,7 +123,7 @@ export default function RoleListPage() {
       dataIndex: 'status',
       key: 'status',
       render: (status: boolean) =>
-        status ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
+        status ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
     {
       title: 'Created',
@@ -145,7 +145,7 @@ export default function RoleListPage() {
           )}
           {can('roles.delete') && (
             <Popconfirm
-              title="Delete this role?"
+              title="Xóa vai trò này?"
               onConfirm={() => deleteMutation.mutate(record.id)}
             >
               <Button type="link" danger icon={<DeleteOutlined />} />
@@ -159,7 +159,7 @@ export default function RoleListPage() {
   return (
     <div>
       <PageHeader
-        title="Roles"
+        title="Vai trò"
         createPermission="roles.create"
         onCreate={handleCreate}
       />
@@ -172,7 +172,7 @@ export default function RoleListPage() {
         actions={
           can('roles.create') && (
             <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              New Role
+              Thêm vai trò
             </Button>
           )
         }

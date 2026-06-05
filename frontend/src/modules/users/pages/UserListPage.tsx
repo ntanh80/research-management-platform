@@ -46,7 +46,7 @@ export default function UserListPage() {
   const createMutation = useMutation({
     mutationFn: (data: UserCreate) => usersApi.createUser(data),
     onSuccess: () => {
-      message.success('User created successfully');
+      message.success('Người dùng đã được tạo');
       queryClient.invalidateQueries({ queryKey: ['users'] });
       setModalOpen(false);
     },
@@ -54,7 +54,7 @@ export default function UserListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to create user';
+          : 'Tạo người dùng thất bại';
       message.error(msg);
     },
   });
@@ -63,7 +63,7 @@ export default function UserListPage() {
     mutationFn: ({ id, data }: { id: number; data: UserUpdate }) =>
       usersApi.updateUser(id, data),
     onSuccess: () => {
-      message.success('User updated successfully');
+      message.success('Người dùng đã được cập nhật');
       queryClient.invalidateQueries({ queryKey: ['users'] });
       setModalOpen(false);
     },
@@ -71,7 +71,7 @@ export default function UserListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to update user';
+          : 'Cập nhật người dùng thất bại';
       message.error(msg);
     },
   });
@@ -79,11 +79,11 @@ export default function UserListPage() {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => usersApi.deleteUser(id),
     onSuccess: () => {
-      message.success('User deleted successfully');
+      message.success('Người dùng đã được xóa');
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
     onError: () => {
-      message.error('Failed to delete user');
+      message.error('Xóa người dùng thất bại');
     },
   });
 
@@ -91,21 +91,21 @@ export default function UserListPage() {
     mutationFn: ({ id, password }: { id: number; password: string }) =>
       usersApi.resetPassword(id, password),
     onSuccess: () => {
-      message.success('Password reset successfully');
+      message.success('Đặt lại mật khẩu thành công');
     },
     onError: () => {
-      message.error('Failed to reset password');
+      message.error('Đặt lại mật khẩu thất bại');
     },
   });
 
   const unlockMutation = useMutation({
     mutationFn: (id: number) => usersApi.unlockUser(id),
     onSuccess: () => {
-      message.success('User unlocked successfully');
+      message.success('Mở khóa người dùng thành công');
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
     onError: () => {
-      message.error('Failed to unlock user');
+      message.error('Mở khóa người dùng thất bại');
     },
   });
 
@@ -148,7 +148,7 @@ export default function UserListPage() {
 
   const columns = [
     {
-      title: 'Username',
+      title: 'Tên đăng nhập',
       dataIndex: 'username',
       key: 'username',
       sorter: true,
@@ -160,13 +160,13 @@ export default function UserListPage() {
       sorter: true,
     },
     {
-      title: 'Full Name',
+      title: 'Họ và tên',
       dataIndex: 'full_name',
       key: 'full_name',
       sorter: true,
     },
     {
-      title: 'Department',
+      title: 'Khoa/Bộ môn',
       dataIndex: 'department_id',
       key: 'department_id',
       render: (_: unknown, record: User) => {
@@ -175,26 +175,26 @@ export default function UserListPage() {
       },
     },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'is_active',
       key: 'is_active',
       render: (active: boolean) =>
-        active ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
+        active ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
     {
-      title: 'Last Login',
+      title: 'Lần cuối đăng nhập',
       dataIndex: 'last_login_at',
       key: 'last_login_at',
       render: (date: string | null) => formatDateTime(date),
     },
     {
-      title: 'Created',
+      title: 'Ngày tạo',
       dataIndex: 'created_at',
       key: 'created_at',
       render: (date: string) => formatDateTime(date),
     },
     {
-      title: 'Actions',
+      title: 'Thao tác',
       key: 'actions',
       render: (_: unknown, record: User) => (
         <Space>
@@ -207,7 +207,7 @@ export default function UserListPage() {
           )}
           {can('users.edit') && (
             <Popconfirm
-              title="Reset password to default?"
+              title="Đặt lại mật khẩu mặc định?"
               onConfirm={() =>
                 resetPasswordMutation.mutate({ id: record.id, password: 'default123' })
               }
@@ -217,7 +217,7 @@ export default function UserListPage() {
           )}
           {can('users.edit') && (
             <Popconfirm
-              title="Unlock this user?"
+              title="Mở khóa người dùng này?"
               onConfirm={() => unlockMutation.mutate(record.id)}
             >
               <Button type="link" icon={<UnlockOutlined />} />
@@ -225,7 +225,7 @@ export default function UserListPage() {
           )}
           {can('users.delete') && (
             <Popconfirm
-              title="Delete this user?"
+              title="Xóa người dùng này?"
               onConfirm={() => deleteMutation.mutate(record.id)}
             >
               <Button type="link" danger icon={<DeleteOutlined />} />
@@ -239,7 +239,7 @@ export default function UserListPage() {
   return (
     <div>
       <PageHeader
-        title="Users"
+        title="Người dùng"
         createPermission="users.create"
         onCreate={handleCreate}
         extraActions={[
@@ -254,7 +254,7 @@ export default function UserListPage() {
 
       <div style={{ marginBottom: 16 }}>
         <Input
-          placeholder="Search users..."
+          placeholder="Tìm kiếm người dùng..."
           prefix={<SearchOutlined />}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
@@ -272,7 +272,7 @@ export default function UserListPage() {
         actions={
           can('users.create') && (
             <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              New User
+              Thêm người dùng
             </Button>
           )
         }

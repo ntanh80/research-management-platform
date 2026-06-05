@@ -15,8 +15,8 @@ import PhDStudentListPage from '@/modules/phd-students/pages/PhDStudentListPage'
 function ForbiddenPage() {
   return (
     <div style={{ textAlign: 'center', padding: 100 }}>
-      <h1>403 - Forbidden</h1>
-      <p>You do not have permission to access this page.</p>
+      <h1>403 - Không có quyền truy cập</h1>
+      <p>Bạn không có quyền truy cập trang này.</p>
     </div>
   );
 }

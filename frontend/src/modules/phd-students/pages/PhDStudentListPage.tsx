@@ -7,8 +7,6 @@ import {
   message,
   Row,
   Col,
-  Card,
-  Statistic,
   Select,
   Input,
   Descriptions,
@@ -57,7 +55,7 @@ export default function PhDStudentListPage() {
   const createMutation = useMutation({
     mutationFn: (data: PhDStudentCreate) => phdStudentsApi.createPhDStudent(data),
     onSuccess: () => {
-      message.success('PhD student created successfully');
+      message.success('Nghiên cứu sinh đã được tạo');
       queryClient.invalidateQueries({ queryKey: ['phd-students'] });
       queryClient.invalidateQueries({ queryKey: ['phd-students-summary'] });
       setModalOpen(false);
@@ -66,7 +64,7 @@ export default function PhDStudentListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to create PhD student';
+          : 'Tạo nghiên cứu sinh thất bại';
       message.error(msg);
     },
   });
@@ -75,7 +73,7 @@ export default function PhDStudentListPage() {
     mutationFn: ({ id, data }: { id: number; data: PhDStudentUpdate }) =>
       phdStudentsApi.updatePhDStudent(id, data),
     onSuccess: () => {
-      message.success('PhD student updated successfully');
+      message.success('Nghiên cứu sinh đã được cập nhật');
       queryClient.invalidateQueries({ queryKey: ['phd-students'] });
       queryClient.invalidateQueries({ queryKey: ['phd-students-summary'] });
       setModalOpen(false);
@@ -84,7 +82,7 @@ export default function PhDStudentListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to update PhD student';
+          : 'Cập nhật nghiên cứu sinh thất bại';
       message.error(msg);
     },
   });
@@ -92,12 +90,12 @@ export default function PhDStudentListPage() {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => phdStudentsApi.deletePhDStudent(id),
     onSuccess: () => {
-      message.success('PhD student deleted successfully');
+      message.success('Nghiên cứu sinh đã được xóa');
       queryClient.invalidateQueries({ queryKey: ['phd-students'] });
       queryClient.invalidateQueries({ queryKey: ['phd-students-summary'] });
     },
     onError: () => {
-      message.error('Failed to delete PhD student');
+      message.error('Xóa nghiên cứu sinh thất bại');
     },
   });
 
@@ -148,43 +146,43 @@ export default function PhDStudentListPage() {
   const expandedRowRender = (record: PhDStudent) => {
     const topicData = record.topic
       ? [
-          { key: 'name', label: 'Topic Name', value: record.topic.name },
+          { key: 'name', label: 'Tên đề tài', value: record.topic.name },
           {
             key: 'name_en',
-            label: 'Topic Name (EN)',
+            label: 'Tên đề tài (EN)',
             value: record.topic.name_en || '-',
           },
           {
             key: 'description',
-            label: 'Description',
+            label: 'Mô tả',
             value: record.topic.description || '-',
           },
           {
             key: 'status',
-            label: 'Status',
+            label: 'Trạng thái',
             value: formatStatus(record.topic.status),
           },
           {
             key: 'start_date',
-            label: 'Start Date',
+            label: 'Ngày bắt đầu',
             value: formatDate(record.topic.start_date),
           },
           {
             key: 'expected_end_date',
-            label: 'Expected End Date',
+            label: 'Ngày dự kiến kết thúc',
             value: formatDate(record.topic.expected_end_date),
           },
         ]
       : [];
 
     const supervisorColumns = [
-      { title: 'Lecturer', dataIndex: 'full_name', key: 'full_name' },
-      { title: 'Role', dataIndex: 'role', key: 'role' },
+      { title: 'Giảng viên', dataIndex: 'full_name', key: 'full_name' },
+      { title: 'Vai trò', dataIndex: 'role', key: 'role' },
       {
-        title: 'Primary',
+        title: 'Chính',
         dataIndex: 'is_primary',
         key: 'is_primary',
-        render: (val: boolean) => (val ? <Tag color="green">Yes</Tag> : <Tag>No</Tag>),
+        render: (val: boolean) => (val ? <Tag color="green">Có</Tag> : <Tag>Không</Tag>),
       },
     ];
 
@@ -192,7 +190,7 @@ export default function PhDStudentListPage() {
       <div style={{ padding: 16 }}>
         {record.topic && (
           <>
-            <Descriptions title="Topic Info" size="small" column={2}>
+            <Descriptions title="Thông tin đề tài" size="small" column={2}>
               {topicData.map((item) => (
                 <Descriptions.Item key={item.key} label={item.label}>
                   {item.value}
@@ -204,7 +202,7 @@ export default function PhDStudentListPage() {
 
         {record.supervisors && record.supervisors.length > 0 && (
           <div style={{ marginTop: 16 }}>
-            <h4>Supervisors</h4>
+            <h4>Người hướng dẫn</h4>
             <Table
               columns={supervisorColumns}
               dataSource={record.supervisors}
@@ -216,7 +214,7 @@ export default function PhDStudentListPage() {
         )}
 
         {!record.topic && (!record.supervisors || record.supervisors.length === 0) && (
-          <p>No additional information available.</p>
+          <p>Không có thông tin bổ sung.</p>
         )}
       </div>
     );
@@ -224,25 +222,25 @@ export default function PhDStudentListPage() {
 
   const columns = [
     {
-      title: 'Code',
+      title: 'Mã',
       dataIndex: 'code',
       key: 'code',
       sorter: true,
     },
     {
-      title: 'Full Name',
+      title: 'Họ và tên',
       dataIndex: 'full_name',
       key: 'full_name',
       sorter: true,
     },
     {
-      title: 'Cohort',
+      title: 'Khóa',
       dataIndex: 'cohort',
       key: 'cohort',
       sorter: true,
     },
     {
-      title: 'Major',
+      title: 'Chuyên ngành',
       dataIndex: 'major',
       key: 'major',
       ellipsis: true,
@@ -258,7 +256,7 @@ export default function PhDStudentListPage() {
       ),
     },
     {
-      title: 'Expected Defense',
+      title: 'Dự kiến bảo vệ',
       dataIndex: 'expected_defense_date',
       key: 'expected_defense_date',
       render: (date: string | null) => formatDate(date),
@@ -283,7 +281,7 @@ export default function PhDStudentListPage() {
           )}
           {can('phd_students.delete') && (
             <Popconfirm
-              title="Delete this PhD student?"
+              title="Xóa nghiên cứu sinh này?"
               onConfirm={() => deleteMutation.mutate(record.id)}
             >
               <Button type="link" danger icon={<DeleteOutlined />} />
@@ -297,46 +295,30 @@ export default function PhDStudentListPage() {
   return (
     <div>
       <PageHeader
-        title="PhD Students"
+        title="Nghiên cứu sinh"
         createPermission="phd_students.create"
         onCreate={handleCreate}
       />
 
       {summaryLoading ? (
-        <Loading rows={2} type="card" />
+        <Loading rows={1} type="card" />
       ) : summaryData?.data ? (
-        <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-          <Col xs={12} sm={6}>
-            <Card>
-              <Statistic title="Total" value={summaryData.data.total} />
-            </Card>
+        <Row gutter={8} style={{ marginBottom: 16 }}>
+          <Col>
+            <span style={{ color: '#666', marginRight: 4 }}>Tổng:</span>
+            <b>{summaryData.data.total}</b>
           </Col>
-          <Col xs={12} sm={6}>
-            <Card>
-              <Statistic
-                title="Studying"
-                value={summaryData.data.studying}
-                valueStyle={{ color: '#1890ff' }}
-              />
-            </Card>
+          <Col style={{ marginLeft: 16 }}>
+            <span style={{ color: '#666', marginRight: 4 }}>Đang học:</span>
+            <b style={{ color: '#1890ff' }}>{summaryData.data.studying}</b>
           </Col>
-          <Col xs={12} sm={6}>
-            <Card>
-              <Statistic
-                title="Defended"
-                value={summaryData.data.defended}
-                valueStyle={{ color: '#3f8600' }}
-              />
-            </Card>
+          <Col style={{ marginLeft: 16 }}>
+            <span style={{ color: '#666', marginRight: 4 }}>Đã bảo vệ:</span>
+            <b style={{ color: '#3f8600' }}>{summaryData.data.defended}</b>
           </Col>
-          <Col xs={12} sm={6}>
-            <Card>
-              <Statistic
-                title="No Publications"
-                value={summaryData.data.no_publications}
-                valueStyle={{ color: '#cf1322' }}
-              />
-            </Card>
+          <Col style={{ marginLeft: 16 }}>
+            <span style={{ color: '#666', marginRight: 4 }}>Chưa có công bố:</span>
+            <b style={{ color: '#cf1322' }}>{summaryData.data.no_publications}</b>
           </Col>
         </Row>
       ) : null}
@@ -344,7 +326,7 @@ export default function PhDStudentListPage() {
       <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
         <Col xs={24} sm={8} md={6}>
           <Input
-            placeholder="Search..."
+            placeholder="Tìm kiếm..."
             prefix={<SearchOutlined />}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
@@ -353,23 +335,23 @@ export default function PhDStudentListPage() {
         </Col>
         <Col xs={12} sm={8} md={4}>
           <Select
-            placeholder="Status"
+            placeholder="Trạng thái"
             allowClear
             style={{ width: '100%' }}
             value={filterStatus}
             onChange={setFilterStatus}
             options={[
-              { label: 'Studying', value: 'studying' },
-              { label: 'Defended', value: 'defended' },
-              { label: 'Dropped Out', value: 'dropped_out' },
-              { label: 'Suspended', value: 'suspended' },
-              { label: 'Graduated', value: 'graduated' },
+              { label: 'Đang học', value: 'studying' },
+              { label: 'Đã bảo vệ', value: 'defended' },
+              { label: 'Đã thôi học', value: 'dropped_out' },
+              { label: 'Tạm ngừng', value: 'suspended' },
+              { label: 'Đã tốt nghiệp', value: 'graduated' },
             ]}
           />
         </Col>
         <Col xs={12} sm={8} md={4}>
           <Input
-            placeholder="Cohort"
+            placeholder="Khóa"
             value={filterCohort}
             onChange={(e) => setFilterCohort(e.target.value || undefined)}
             allowClear
@@ -377,7 +359,7 @@ export default function PhDStudentListPage() {
         </Col>
         <Col xs={24} sm={8} md={4}>
           <Input
-            placeholder="Major"
+            placeholder="Chuyên ngành"
             value={filterMajor}
             onChange={(e) => setFilterMajor(e.target.value || undefined)}
             allowClear
@@ -399,7 +381,7 @@ export default function PhDStudentListPage() {
         actions={
           can('phd_students.create') && (
             <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              New PhD Student
+              Thêm nghiên cứu sinh
             </Button>
           )
         }

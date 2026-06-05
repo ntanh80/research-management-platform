@@ -56,7 +56,7 @@ export default function UserFormModal({
 
   return (
     <Modal
-      title={isEdit ? 'Edit User' : 'Create User'}
+      title={isEdit ? 'Sửa người dùng' : 'Thêm người dùng'}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -72,8 +72,8 @@ export default function UserFormModal({
         >
           <Form.Item
             name="username"
-            label="Username"
-            rules={[{ required: true, message: 'Username is required' }]}
+            label="Tên đăng nhập"
+            rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập' }]}
           >
             <Input disabled={isEdit} />
           </Form.Item>
@@ -82,8 +82,8 @@ export default function UserFormModal({
             name="email"
             label="Email"
             rules={[
-              { required: true, message: 'Email is required' },
-              { type: 'email', message: 'Invalid email' },
+              { required: true, message: 'Vui lòng nhập email' },
+              { type: 'email', message: 'Email không hợp lệ' },
             ]}
           >
             <Input />
@@ -91,8 +91,8 @@ export default function UserFormModal({
 
           <Form.Item
             name="full_name"
-            label="Full Name"
-            rules={[{ required: true, message: 'Full name is required' }]}
+            label="Họ và tên"
+            rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}
           >
             <Input />
           </Form.Item>
@@ -100,20 +100,20 @@ export default function UserFormModal({
           {!isEdit && (
             <Form.Item
               name="password"
-              label="Password"
+              label="Mật khẩu"
               rules={[
-                { required: true, message: 'Password is required' },
-                { min: 6, message: 'Password must be at least 6 characters' },
+                { required: true, message: 'Vui lòng nhập mật khẩu' },
+                { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự' },
               ]}
             >
               <Input.Password />
             </Form.Item>
           )}
 
-          <Form.Item name="department_id" label="Department">
+          <Form.Item name="department_id" label="Khoa/Bộ môn">
             <Select
               allowClear
-              placeholder="Select department"
+              placeholder="Chọn khoa/bộ môn"
               options={departments.map((d) => ({
                 label: d.name,
                 value: d.id,
@@ -121,7 +121,7 @@ export default function UserFormModal({
             />
           </Form.Item>
 
-          <Form.Item name="is_active" label="Active" valuePropName="checked">
+          <Form.Item name="is_active" label="Hoạt động" valuePropName="checked">
             <Switch defaultChecked />
           </Form.Item>
         </Form>

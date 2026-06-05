@@ -118,7 +118,7 @@ export default function RoleFormModal({
             }
           }}
         >
-          <Text strong>Select All</Text>
+          <Text strong>Chọn tất cả</Text>
         </Checkbox>
         <div style={{ marginTop: 8 }}>
           <Checkbox.Group
@@ -147,7 +147,7 @@ export default function RoleFormModal({
 
   return (
     <Modal
-      title={isEdit ? 'Edit Role' : 'Create Role'}
+      title={isEdit ? 'Sửa vai trò' : 'Thêm vai trò'}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -159,30 +159,30 @@ export default function RoleFormModal({
         <Form form={form} layout="vertical" style={{ marginTop: 16 }}>
           <Form.Item
             name="code"
-            label="Code"
-            rules={[{ required: true, message: 'Code is required' }]}
+            label="Mã"
+            rules={[{ required: true, message: 'Vui lòng nhập mã' }]}
           >
-            <Input disabled={isEdit} placeholder="e.g., admin" />
+            <Input disabled={isEdit} placeholder="VD: admin" />
           </Form.Item>
 
           <Form.Item
             name="name"
-            label="Name"
-            rules={[{ required: true, message: 'Name is required' }]}
+            label="Tên"
+            rules={[{ required: true, message: 'Vui lòng nhập tên' }]}
           >
-            <Input placeholder="e.g., Administrator" />
+            <Input placeholder="VD: Quản trị viên" />
           </Form.Item>
 
-          <Form.Item name="description" label="Description">
+          <Form.Item name="description" label="Mô tả">
             <Input.TextArea rows={2} />
           </Form.Item>
 
-          <Form.Item name="status" label="Status" valuePropName="checked">
+          <Form.Item name="status" label="Trạng thái" valuePropName="checked">
             <Switch defaultChecked />
           </Form.Item>
 
           {open && modules.length > 0 && (
-            <Form.Item label="Permissions">
+            <Form.Item label="Quyền">
               <Tabs items={tabItems} />
             </Form.Item>
           )}

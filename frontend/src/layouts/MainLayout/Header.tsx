@@ -32,13 +32,13 @@ export default function Header() {
       {
         key: 'profile',
         icon: <UserOutlined />,
-        label: 'Profile',
+        label: 'Hồ sơ',
       },
       { type: 'divider' as const },
       {
         key: 'logout',
         icon: <LogoutOutlined />,
-        label: 'Logout',
+        label: 'Đăng xuất',
         danger: true,
         onClick: handleLogout,
       },
@@ -77,7 +77,7 @@ export default function Header() {
         <Dropdown menu={dropdownItems}>
           <Space style={{ cursor: 'pointer' }}>
             <UserOutlined />
-            <Text>{user?.full_name || user?.username || 'User'}</Text>
+            <Text>{user?.full_name || user?.username || 'Người dùng'}</Text>
           </Space>
         </Dropdown>
       </Space>

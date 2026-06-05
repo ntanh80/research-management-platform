@@ -16,8 +16,8 @@ export function showConfirm({
   content,
   onOk,
   onCancel,
-  okText = 'Confirm',
-  cancelText = 'Cancel',
+  okText = 'Xác nhận',
+  cancelText = 'Hủy',
   danger = false,
 }: ConfirmOptions) {
   Modal.confirm({

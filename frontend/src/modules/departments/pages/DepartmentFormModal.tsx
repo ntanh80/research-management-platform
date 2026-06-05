@@ -56,7 +56,7 @@ export default function DepartmentFormModal({
 
   return (
     <Modal
-      title={isEdit ? 'Edit Department' : 'Create Department'}
+      title={isEdit ? 'Sửa khoa/bộ môn' : 'Thêm khoa/bộ môn'}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -68,28 +68,28 @@ export default function DepartmentFormModal({
         <Form form={form} layout="vertical" style={{ marginTop: 16 }}>
           <Form.Item
             name="code"
-            label="Code"
-            rules={[{ required: true, message: 'Code is required' }]}
+            label="Mã"
+            rules={[{ required: true, message: 'Vui lòng nhập mã' }]}
           >
-            <Input disabled={isEdit} placeholder="e.g., CS" />
+            <Input disabled={isEdit} placeholder="VD: CNTT" />
           </Form.Item>
 
           <Form.Item
             name="name"
-            label="Name"
-            rules={[{ required: true, message: 'Name is required' }]}
+            label="Tên"
+            rules={[{ required: true, message: 'Vui lòng nhập tên' }]}
           >
-            <Input placeholder="e.g., Computer Science" />
+            <Input placeholder="VD: Khoa học Máy tính" />
           </Form.Item>
 
-          <Form.Item name="description" label="Description">
+          <Form.Item name="description" label="Mô tả">
             <Input.TextArea rows={3} />
           </Form.Item>
 
-          <Form.Item name="head_lecturer_id" label="Head Lecturer">
+          <Form.Item name="head_lecturer_id" label="Trưởng bộ môn">
             <Select
               allowClear
-              placeholder="Select head lecturer"
+              placeholder="Chọn trưởng bộ môn"
               showSearch
               optionFilterProp="label"
               options={lecturers
@@ -101,7 +101,7 @@ export default function DepartmentFormModal({
             />
           </Form.Item>
 
-          <Form.Item name="status" label="Status" valuePropName="checked">
+          <Form.Item name="status" label="Trạng thái" valuePropName="checked">
             <Switch defaultChecked />
           </Form.Item>
         </Form>

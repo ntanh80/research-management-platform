@@ -65,11 +65,11 @@ export default function PageHeader({
           {title}
         </Title>
         <Space>
-          {onImport && <Button icon={<UploadOutlined />} onClick={onImport}>Import</Button>}
-          {onExport && <Button icon={<DownloadOutlined />} onClick={onExport}>Export</Button>}
+          {onImport && <Button icon={<UploadOutlined />} onClick={onImport}>Nhập</Button>}
+          {onExport && <Button icon={<DownloadOutlined />} onClick={onExport}>Xuất</Button>}
           {onRefresh && (
             <Button icon={<ReloadOutlined />} onClick={onRefresh}>
-              Refresh
+              Làm mới
             </Button>
           )}
           {extraActions?.map((action) => {
@@ -87,7 +87,7 @@ export default function PageHeader({
           })}
           {onCreate && canCreate && (
             <Button type="primary" icon={<PlusOutlined />} onClick={onCreate}>
-              New
+              Thêm mới
             </Button>
           )}
         </Space>

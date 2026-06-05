@@ -10,25 +10,25 @@ const { Title, Text } = Typography;
 
 const stats = [
   {
-    title: 'PhD Students',
+    title: 'Nghiên cứu sinh',
     value: '--',
     icon: <SolutionOutlined style={{ fontSize: 32, color: '#1890ff' }} />,
     color: '#e6f7ff',
   },
   {
-    title: 'Lecturers',
+    title: 'Giảng viên',
     value: '--',
     icon: <TeamOutlined style={{ fontSize: 32, color: '#52c41a' }} />,
     color: '#f6ffed',
   },
   {
-    title: 'Departments',
+    title: 'Khoa / Bộ môn',
     value: '--',
     icon: <BankOutlined style={{ fontSize: 32, color: '#faad14' }} />,
     color: '#fffbe6',
   },
   {
-    title: 'Users',
+    title: 'Người dùng',
     value: '--',
     icon: <UserOutlined style={{ fontSize: 32, color: '#722ed1' }} />,
     color: '#f9f0ff',
@@ -38,10 +38,9 @@ const stats = [
 export default function DashboardPage() {
   return (
     <div>
-      <Title level={4}>Dashboard</Title>
+      <Title level={4}>Tổng quan</Title>
       <Text type="secondary" style={{ display: 'block', marginBottom: 24 }}>
-        Welcome to the Research Management Platform. Summary statistics will
-        be available in Sprint 3.
+        Chào mừng đến với Hệ thống Quản lý NCKH. Thống kê tổng quan sẽ được cập nhật trong Sprint 3.
       </Text>
 
       <Row gutter={[16, 16]}>

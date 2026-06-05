@@ -34,7 +34,7 @@ export default function LoginPage() {
       const message =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Login failed. Please check your credentials.';
+          : 'Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập.';
       setError(message);
     } finally {
       setLoading(false);
@@ -54,9 +54,9 @@ export default function LoginPage() {
       <Card style={{ width: 400, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <Title level={2} style={{ margin: 0 }}>
-            Research Management
+            Quản lý NCKH
           </Title>
-          <Text type="secondary">Platform</Text>
+          <Text type="secondary">Hệ thống Quản lý Nghiên cứu Khoa học</Text>
         </div>
 
         {error && (
@@ -78,21 +78,21 @@ export default function LoginPage() {
         >
           <Form.Item
             name="username"
-            rules={[{ required: true, message: 'Please enter your username' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập' }]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Username" />
+            <Input prefix={<UserOutlined />} placeholder="Tên đăng nhập" />
           </Form.Item>
 
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please enter your password' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
           >
-            <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+            <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" />
           </Form.Item>
 
           <Form.Item style={{ marginBottom: 0 }}>
             <Button type="primary" htmlType="submit" block loading={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </Button>
           </Form.Item>
         </Form>

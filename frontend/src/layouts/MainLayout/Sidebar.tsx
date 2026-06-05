@@ -22,12 +22,12 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { key: '/dashboard', icon: <DashboardOutlined />, label: 'Dashboard', permission: 'dashboard.view' },
-  { key: '/phd-students', icon: <SolutionOutlined />, label: 'PhD Students', permission: 'phd_students.view' },
-  { key: '/lecturers', icon: <TeamOutlined />, label: 'Lecturers', permission: 'lecturers.view' },
-  { key: '/departments', icon: <BankOutlined />, label: 'Departments', permission: 'departments.view' },
-  { key: '/users', icon: <UserOutlined />, label: 'Users', permission: 'users.view' },
-  { key: '/roles', icon: <SafetyOutlined />, label: 'Roles', permission: 'roles.view' },
+  { key: '/dashboard', icon: <DashboardOutlined />, label: 'Tổng quan', permission: 'dashboard.view' },
+  { key: '/phd-students', icon: <SolutionOutlined />, label: 'Nghiên cứu sinh', permission: 'phd_students.view' },
+  { key: '/lecturers', icon: <TeamOutlined />, label: 'Giảng viên', permission: 'lecturers.view' },
+  { key: '/departments', icon: <BankOutlined />, label: 'Khoa / Bộ môn', permission: 'departments.view' },
+  { key: '/users', icon: <UserOutlined />, label: 'Người dùng', permission: 'users.view' },
+  { key: '/roles', icon: <SafetyOutlined />, label: 'Vai trò', permission: 'roles.view' },
 ];
 
 export default function Sidebar() {
@@ -79,7 +79,7 @@ export default function Sidebar() {
           overflow: 'hidden',
         }}
       >
-        {collapsed ? 'RMP' : 'Research Mgmt'}
+        {collapsed ? 'RMP' : 'Quản lý NCKH'}
       </div>
       <Menu
         theme="dark"

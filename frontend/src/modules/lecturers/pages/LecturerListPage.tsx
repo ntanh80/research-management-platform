@@ -7,8 +7,6 @@ import {
   message,
   Row,
   Col,
-  Card,
-  Statistic,
 } from 'antd';
 import {
   PlusOutlined,
@@ -48,7 +46,7 @@ export default function LecturerListPage() {
   const createMutation = useMutation({
     mutationFn: (data: LecturerCreate) => lecturersApi.createLecturer(data),
     onSuccess: () => {
-      message.success('Lecturer created successfully');
+      message.success('Giảng viên đã được tạo');
       queryClient.invalidateQueries({ queryKey: ['lecturers'] });
       queryClient.invalidateQueries({ queryKey: ['lecturers-summary'] });
       setModalOpen(false);
@@ -57,7 +55,7 @@ export default function LecturerListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to create lecturer';
+          : 'Tạo giảng viên thất bại';
       message.error(msg);
     },
   });
@@ -66,7 +64,7 @@ export default function LecturerListPage() {
     mutationFn: ({ id, data }: { id: number; data: LecturerUpdate }) =>
       lecturersApi.updateLecturer(id, data),
     onSuccess: () => {
-      message.success('Lecturer updated successfully');
+      message.success('Giảng viên đã được cập nhật');
       queryClient.invalidateQueries({ queryKey: ['lecturers'] });
       queryClient.invalidateQueries({ queryKey: ['lecturers-summary'] });
       setModalOpen(false);
@@ -75,7 +73,7 @@ export default function LecturerListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to update lecturer';
+          : 'Cập nhật giảng viên thất bại';
       message.error(msg);
     },
   });
@@ -83,12 +81,12 @@ export default function LecturerListPage() {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => lecturersApi.deleteLecturer(id),
     onSuccess: () => {
-      message.success('Lecturer deleted successfully');
+      message.success('Giảng viên đã được xóa');
       queryClient.invalidateQueries({ queryKey: ['lecturers'] });
       queryClient.invalidateQueries({ queryKey: ['lecturers-summary'] });
     },
     onError: () => {
-      message.error('Failed to delete lecturer');
+      message.error('Xóa giảng viên thất bại');
     },
   });
 
@@ -132,29 +130,29 @@ export default function LecturerListPage() {
 
   const columns = [
     {
-      title: 'Code',
+      title: 'Mã',
       dataIndex: 'code',
       key: 'code',
       sorter: true,
     },
     {
-      title: 'Full Name',
+      title: 'Họ và tên',
       dataIndex: 'full_name',
       key: 'full_name',
       sorter: true,
     },
     {
-      title: 'Academic Title',
+      title: 'Học hàm',
       dataIndex: 'academic_title',
       key: 'academic_title',
     },
     {
-      title: 'Degree',
+      title: 'Học vị',
       dataIndex: 'degree',
       key: 'degree',
     },
     {
-      title: 'Department',
+      title: 'Khoa/Bộ môn',
       dataIndex: 'department_id',
       key: 'department_id',
       render: (_: unknown, record: Lecturer) => {
@@ -173,7 +171,7 @@ export default function LecturerListPage() {
       dataIndex: 'status',
       key: 'status',
       render: (status: boolean) =>
-        status ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
+        status ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
     {
       title: 'Created',
@@ -195,7 +193,7 @@ export default function LecturerListPage() {
           )}
           {can('lecturers.delete') && (
             <Popconfirm
-              title="Delete this lecturer?"
+              title="Xóa giảng viên này?"
               onConfirm={() => deleteMutation.mutate(record.id)}
             >
               <Button type="link" danger icon={<DeleteOutlined />} />
@@ -209,29 +207,25 @@ export default function LecturerListPage() {
   return (
     <div>
       <PageHeader
-        title="Lecturers"
+        title="Giảng viên"
         createPermission="lecturers.create"
         onCreate={handleCreate}
       />
 
       {summaryLoading ? (
-        <Loading rows={2} type="card" />
+        <Loading rows={1} type="card" />
       ) : summaryData?.data ? (
-        <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-          <Col xs={12} sm={6}>
-            <Card>
-              <Statistic title="Total Lecturers" value={summaryData.data.total} />
-            </Card>
+        <Row gutter={8} style={{ marginBottom: 16 }}>
+          <Col>
+            <span style={{ color: '#666', marginRight: 4 }}>Tổng:</span>
+            <b>{summaryData.data.total}</b>
           </Col>
-          <Col xs={12} sm={6}>
-            <Card>
-              <Statistic
-                title="Active"
-                value={summaryData.data.active}
-                valueStyle={{ color: '#3f8600' }}
-              />
-            </Card>
+          <Col style={{ marginLeft: 16 }}>
+            <span style={{ color: '#666', marginRight: 4 }}>Hoạt động:</span>
+            <b style={{ color: '#3f8600' }}>{summaryData.data.active}</b>
           </Col>
+        </Row>
+      ) : null}
         </Row>
       ) : null}
 
@@ -243,7 +237,7 @@ export default function LecturerListPage() {
         actions={
           can('lecturers.create') && (
             <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              New Lecturer
+              Thêm giảng viên
             </Button>
           )
         }

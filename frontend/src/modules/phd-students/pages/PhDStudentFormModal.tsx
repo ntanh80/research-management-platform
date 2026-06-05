@@ -14,11 +14,11 @@ interface PhDStudentFormModalProps {
 }
 
 const statusOptions = [
-  { label: 'Studying', value: 'studying' },
-  { label: 'Defended', value: 'defended' },
-  { label: 'Dropped Out', value: 'dropped_out' },
-  { label: 'Suspended', value: 'suspended' },
-  { label: 'Graduated', value: 'graduated' },
+  { label: 'Đang học', value: 'studying' },
+  { label: 'Đã bảo vệ', value: 'defended' },
+  { label: 'Đã thôi học', value: 'dropped_out' },
+  { label: 'Tạm ngừng', value: 'suspended' },
+  { label: 'Đã tốt nghiệp', value: 'graduated' },
 ];
 
 export default function PhDStudentFormModal({
@@ -81,7 +81,7 @@ export default function PhDStudentFormModal({
 
   return (
     <Modal
-      title={isEdit ? 'Edit PhD Student' : 'Create PhD Student'}
+      title={isEdit ? 'Sửa nghiên cứu sinh' : 'Thêm nghiên cứu sinh'}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -93,30 +93,30 @@ export default function PhDStudentFormModal({
         <Form form={form} layout="vertical" style={{ marginTop: 16 }}>
           <Form.Item
             name="code"
-            label="Code"
-            rules={[{ required: true, message: 'Code is required' }]}
+            label="Mã"
+            rules={[{ required: true, message: 'Vui lòng nhập mã' }]}
           >
-            <Input disabled={isEdit} placeholder="e.g., NCS001" />
+            <Input disabled={isEdit} placeholder="VD: NCS001" />
           </Form.Item>
 
           <Form.Item
             name="full_name"
-            label="Full Name"
-            rules={[{ required: true, message: 'Full name is required' }]}
+            label="Họ và tên"
+            rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}
           >
-            <Input placeholder="Full name" />
+            <Input placeholder="Họ và tên" />
           </Form.Item>
 
-          <Form.Item name="date_of_birth" label="Date of Birth">
+          <Form.Item name="date_of_birth" label="Ngày sinh">
             <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
           </Form.Item>
 
-          <Form.Item name="gender" label="Gender">
+          <Form.Item name="gender" label="Giới tính">
             <Select
               options={[
-                { label: 'Male', value: 'male' },
-                { label: 'Female', value: 'female' },
-                { label: 'Other', value: 'other' },
+                { label: 'Nam', value: 'male' },
+                { label: 'Nữ', value: 'female' },
+                { label: 'Khác', value: 'other' },
               ]}
               allowClear
             />
@@ -126,40 +126,40 @@ export default function PhDStudentFormModal({
             <Input placeholder="email@example.com" />
           </Form.Item>
 
-          <Form.Item name="phone" label="Phone">
-            <Input placeholder="Phone number" />
+          <Form.Item name="phone" label="Điện thoại">
+            <Input placeholder="Số điện thoại" />
           </Form.Item>
 
-          <Form.Item name="organization" label="Organization">
-            <Input placeholder="Affiliated organization" />
+          <Form.Item name="organization" label="Đơn vị công tác">
+            <Input placeholder="Đơn vị công tác" />
           </Form.Item>
 
-          <Form.Item name="major" label="Major">
-            <Input placeholder="Major" />
+          <Form.Item name="major" label="Chuyên ngành">
+            <Input placeholder="Chuyên ngành" />
           </Form.Item>
 
-          <Form.Item name="major_code" label="Major Code">
-            <Input placeholder="Major code" />
+          <Form.Item name="major_code" label="Mã chuyên ngành">
+            <Input placeholder="Mã chuyên ngành" />
           </Form.Item>
 
-          <Form.Item name="cohort" label="Cohort">
-            <Input placeholder="e.g., 2024" />
+          <Form.Item name="cohort" label="Khóa">
+            <Input placeholder="VD: 2024" />
           </Form.Item>
 
-          <Form.Item name="admission_decision_date" label="Admission Decision Date">
+          <Form.Item name="admission_decision_date" label="Ngày nhập học">
             <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
           </Form.Item>
 
-          <Form.Item name="expected_defense_date" label="Expected Defense Date">
+          <Form.Item name="expected_defense_date" label="Dự kiến bảo vệ">
             <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
           </Form.Item>
 
-          <Form.Item name="status" label="Status">
-            <Select options={statusOptions} allowClear placeholder="Select status" />
+          <Form.Item name="status" label="Trạng thái">
+            <Select options={statusOptions} allowClear placeholder="Chọn trạng thái" />
           </Form.Item>
 
-          <Form.Item name="note" label="Note">
-            <TextArea rows={3} placeholder="Additional notes" />
+          <Form.Item name="note" label="Ghi chú">
+            <TextArea rows={3} placeholder="Ghi chú bổ sung" />
           </Form.Item>
         </Form>
       </Spin>

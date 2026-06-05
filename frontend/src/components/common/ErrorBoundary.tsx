@@ -38,11 +38,11 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <Result
           status="error"
-          title="Something went wrong"
-          subTitle={this.state.error?.message || 'An unexpected error occurred'}
+          title="Đã xảy ra lỗi"
+          subTitle={this.state.error?.message || 'Đã xảy ra lỗi không mong muốn'}
           extra={
             <Button type="primary" onClick={this.handleReset}>
-              Try Again
+              Thử lại
             </Button>
           }
         />

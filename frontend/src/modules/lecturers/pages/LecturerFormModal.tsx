@@ -53,49 +53,49 @@ export default function LecturerFormModal({
   const tabItems = [
     {
       key: 'basic',
-      label: 'Basic Info',
+      label: 'Thông tin cơ bản',
       children: (
         <div>
           <Form.Item
             name="code"
-            label="Code"
-            rules={[{ required: true, message: 'Code is required' }]}
+            label="Mã"
+            rules={[{ required: true, message: 'Vui lòng nhập mã' }]}
           >
-            <Input disabled={isEdit} placeholder="e.g., GV001" />
+            <Input disabled={isEdit} placeholder="VD: GV001" />
           </Form.Item>
 
           <Form.Item
             name="full_name"
-            label="Full Name"
-            rules={[{ required: true, message: 'Full name is required' }]}
+            label="Họ và tên"
+            rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}
           >
-            <Input placeholder="Full name" />
+            <Input placeholder="Họ và tên" />
           </Form.Item>
 
-          <Form.Item name="academic_title" label="Academic Title">
-            <Input placeholder="e.g., Professor" />
+          <Form.Item name="academic_title" label="Học hàm">
+            <Input placeholder="VD: Giáo sư" />
           </Form.Item>
 
-          <Form.Item name="degree" label="Degree">
-            <Input placeholder="e.g., PhD" />
+          <Form.Item name="degree" label="Học vị">
+            <Input placeholder="VD: Tiến sĩ" />
           </Form.Item>
 
-          <Form.Item name="position" label="Position">
-            <Input placeholder="e.g., Dean" />
+          <Form.Item name="position" label="Chức vụ">
+            <Input placeholder="VD: Trưởng khoa" />
           </Form.Item>
 
           <Form.Item name="email" label="Email">
             <Input placeholder="email@example.com" />
           </Form.Item>
 
-          <Form.Item name="phone" label="Phone">
-            <Input placeholder="Phone number" />
+          <Form.Item name="phone" label="Điện thoại">
+            <Input placeholder="Số điện thoại" />
           </Form.Item>
 
-          <Form.Item name="department_id" label="Department">
+          <Form.Item name="department_id" label="Khoa/Bộ môn">
             <Select
               allowClear
-              placeholder="Select department"
+              placeholder="Chọn khoa/bộ môn"
               options={departments.map((d) => ({
                 label: d.name,
                 value: d.id,
@@ -103,7 +103,7 @@ export default function LecturerFormModal({
             />
           </Form.Item>
 
-          <Form.Item name="status" label="Status" valuePropName="checked">
+          <Form.Item name="status" label="Trạng thái" valuePropName="checked">
             <Switch defaultChecked />
           </Form.Item>
         </div>
@@ -111,18 +111,18 @@ export default function LecturerFormModal({
     },
     {
       key: 'research',
-      label: 'Research',
+      label: 'Nghiên cứu',
       children: (
         <div>
-          <Form.Item name="specialization" label="Specialization">
-            <Input placeholder="Main specialization" />
+          <Form.Item name="specialization" label="Chuyên môn">
+            <Input placeholder="Chuyên môn chính" />
           </Form.Item>
 
-          <Form.Item name="research_interests" label="Research Interests">
-            <TextArea rows={3} placeholder="Research interests" />
+          <Form.Item name="research_interests" label="Hướng nghiên cứu">
+            <TextArea rows={3} placeholder="Hướng nghiên cứu" />
           </Form.Item>
 
-          <Form.Item name="scholar_url" label="Google Scholar URL">
+          <Form.Item name="scholar_url" label="Google Scholar">
             <Input placeholder="https://scholar.google.com/..." />
           </Form.Item>
 
@@ -131,11 +131,11 @@ export default function LecturerFormModal({
           </Form.Item>
 
           <Form.Item name="scopus_id" label="Scopus ID">
-            <Input placeholder="Scopus author ID" />
+            <Input placeholder="Mã tác giả Scopus" />
           </Form.Item>
 
-          <Form.Item name="note" label="Note">
-            <TextArea rows={3} placeholder="Additional notes" />
+          <Form.Item name="note" label="Ghi chú">
+            <TextArea rows={3} placeholder="Ghi chú bổ sung" />
           </Form.Item>
         </div>
       ),
@@ -144,7 +144,7 @@ export default function LecturerFormModal({
 
   return (
     <Modal
-      title={isEdit ? 'Edit Lecturer' : 'Create Lecturer'}
+      title={isEdit ? 'Sửa giảng viên' : 'Thêm giảng viên'}
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}

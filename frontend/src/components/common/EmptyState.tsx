@@ -5,7 +5,7 @@ interface EmptyStateProps {
 }
 
 export default function EmptyState({
-  description = 'No data',
+  description = 'Không có dữ liệu',
 }: EmptyStateProps) {
   return <Empty description={description} />;
 }

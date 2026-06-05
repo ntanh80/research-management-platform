@@ -32,7 +32,7 @@ export default function DepartmentListPage() {
   const createMutation = useMutation({
     mutationFn: (data: DepartmentCreate) => departmentsApi.createDepartment(data),
     onSuccess: () => {
-      message.success('Department created successfully');
+      message.success('Khoa/Bộ môn đã được tạo');
       queryClient.invalidateQueries({ queryKey: ['departments'] });
       setModalOpen(false);
     },
@@ -40,7 +40,7 @@ export default function DepartmentListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to create department';
+          : 'Tạo khoa/bộ môn thất bại';
       message.error(msg);
     },
   });
@@ -49,7 +49,7 @@ export default function DepartmentListPage() {
     mutationFn: ({ id, data }: { id: number; data: DepartmentUpdate }) =>
       departmentsApi.updateDepartment(id, data),
     onSuccess: () => {
-      message.success('Department updated successfully');
+      message.success('Khoa/Bộ môn đã được cập nhật');
       queryClient.invalidateQueries({ queryKey: ['departments'] });
       setModalOpen(false);
     },
@@ -57,7 +57,7 @@ export default function DepartmentListPage() {
       const msg =
         err && typeof err === 'object' && 'response' in err
           ? (err as { response: { data: { message: string } } }).response?.data?.message
-          : 'Failed to update department';
+          : 'Cập nhật khoa/bộ môn thất bại';
       message.error(msg);
     },
   });
@@ -65,11 +65,11 @@ export default function DepartmentListPage() {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => departmentsApi.deleteDepartment(id),
     onSuccess: () => {
-      message.success('Department deleted successfully');
+      message.success('Khoa/Bộ môn đã được xóa');
       queryClient.invalidateQueries({ queryKey: ['departments'] });
     },
     onError: () => {
-      message.error('Failed to delete department');
+      message.error('Xóa khoa/bộ môn thất bại');
     },
   });
 
@@ -113,19 +113,19 @@ export default function DepartmentListPage() {
 
   const columns = [
     {
-      title: 'Code',
+      title: 'Mã',
       dataIndex: 'code',
       key: 'code',
       sorter: true,
     },
     {
-      title: 'Name',
+      title: 'Tên',
       dataIndex: 'name',
       key: 'name',
       sorter: true,
     },
     {
-      title: 'Head Lecturer',
+      title: 'Trưởng bộ môn',
       dataIndex: 'head_lecturer_id',
       key: 'head_lecturer_id',
       render: (_: unknown, record: Department) => {
@@ -139,7 +139,7 @@ export default function DepartmentListPage() {
       dataIndex: 'status',
       key: 'status',
       render: (status: boolean) =>
-        status ? <Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>,
+        status ? <Tag color="green">Hoạt động</Tag> : <Tag color="red">Không hoạt động</Tag>,
     },
     {
       title: 'Created',
@@ -161,7 +161,7 @@ export default function DepartmentListPage() {
           )}
           {can('departments.delete') && (
             <Popconfirm
-              title="Delete this department?"
+              title="Xóa khoa/bộ môn này?"
               onConfirm={() => deleteMutation.mutate(record.id)}
             >
               <Button type="link" danger icon={<DeleteOutlined />} />
@@ -175,7 +175,7 @@ export default function DepartmentListPage() {
   return (
     <div>
       <PageHeader
-        title="Departments"
+        title="Khoa / Bộ môn"
         createPermission="departments.create"
         onCreate={handleCreate}
       />
@@ -188,7 +188,7 @@ export default function DepartmentListPage() {
         actions={
           can('departments.create') && (
             <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              New Department
+              Thêm khoa/bộ môn
             </Button>
           )
         }
