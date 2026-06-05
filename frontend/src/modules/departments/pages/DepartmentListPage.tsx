@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
-import { Button, Space, Tag, Popconfirm, message } from 'antd';
+import { Button, Space, Tag, Popconfirm, message, Row, Col, Input } from 'antd';
 import {
-  PlusOutlined,
   EditOutlined,
   DeleteOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { departmentsApi } from '@/api/departments.api';
@@ -21,6 +21,7 @@ export default function DepartmentListPage() {
   const { can } = usePermission();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
+  const [searchText, setSearchText] = useState('');
 
   const { data: lecturersData } = useQuery({
     queryKey: ['lecturers-all'],
@@ -101,14 +102,17 @@ export default function DepartmentListPage() {
       sort_by?: string;
       sort_order?: 'asc' | 'desc';
     }) => {
-      const res = await departmentsApi.getDepartments(params);
+      const res = await departmentsApi.getDepartments({
+        ...params,
+        search: searchText || undefined,
+      });
       return res as {
         success: boolean;
         data: Department[];
         pagination: Pagination | null;
       };
     },
-    []
+    [searchText]
   );
 
   const columns = [
@@ -180,18 +184,24 @@ export default function DepartmentListPage() {
         onCreate={handleCreate}
       />
 
+      <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col xs={24} sm={12} md={8}>
+          <Input
+            placeholder="Tìm kiếm..."
+            prefix={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            allowClear
+          />
+        </Col>
+      </Row>
+
       <DataGrid
         columns={columns}
         fetchData={fetchDepartments}
         queryKey="departments"
+        queryParams={{ search: searchText || undefined }}
         permissionPrefix="departments"
-        actions={
-          can('departments.create') && (
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              Thêm khoa/bộ môn
-            </Button>
-          )
-        }
       />
 
       <DepartmentFormModal

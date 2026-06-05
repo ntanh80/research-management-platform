@@ -7,9 +7,11 @@ import {
   Popconfirm,
   message,
   Typography,
+  Row,
+  Col,
+  Select,
 } from 'antd';
 import {
-  PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   KeyOutlined,
@@ -35,6 +37,8 @@ export default function UserListPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [searchText, setSearchText] = useState('');
+  const [filterDept, setFilterDept] = useState<number | undefined>();
+  const [filterActive, setFilterActive] = useState<boolean | undefined>();
 
   const { data: departmentsData } = useQuery({
     queryKey: ['departments'],
@@ -140,10 +144,12 @@ export default function UserListPage() {
       const res = await usersApi.getUsers({
         ...params,
         search: searchText || undefined,
+        department_id: filterDept,
+        is_active: filterActive,
       });
       return res as { success: boolean; data: User[]; pagination: Pagination | null };
     },
-    [searchText]
+    [searchText, filterDept, filterActive]
   );
 
   const columns = [
@@ -252,30 +258,51 @@ export default function UserListPage() {
         ]}
       />
 
-      <div style={{ marginBottom: 16 }}>
-        <Input
-          placeholder="Tìm kiếm người dùng..."
-          prefix={<SearchOutlined />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ width: 300 }}
-          allowClear
-        />
-      </div>
+      <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col xs={24} sm={12} md={8}>
+          <Input
+            placeholder="Tìm kiếm..."
+            prefix={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            allowClear
+          />
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <Select
+            placeholder="Khoa/Bộ môn"
+            allowClear
+            style={{ width: '100%' }}
+            value={filterDept}
+            onChange={setFilterDept}
+            options={departments.map((d) => ({ label: d.name, value: d.id }))}
+          />
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <Select
+            placeholder="Trạng thái"
+            allowClear
+            style={{ width: '100%' }}
+            value={filterActive}
+            onChange={(val) => setFilterActive(val ?? undefined)}
+            options={[
+              { label: 'Hoạt động', value: true },
+              { label: 'Không hoạt động', value: false },
+            ]}
+          />
+        </Col>
+      </Row>
 
       <DataGrid
         columns={columns}
         fetchData={fetchUsers}
         queryKey="users"
-        queryParams={{ search: searchText || undefined }}
+        queryParams={{
+          search: searchText || undefined,
+          department_id: filterDept,
+          is_active: filterActive,
+        }}
         permissionPrefix="users"
-        actions={
-          can('users.create') && (
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              Thêm người dùng
-            </Button>
-          )
-        }
       />
 
       <UserFormModal

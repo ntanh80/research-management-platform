@@ -7,11 +7,13 @@ import {
   message,
   Row,
   Col,
+  Select,
+  Input,
 } from 'antd';
 import {
-  PlusOutlined,
   EditOutlined,
   DeleteOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { lecturersApi } from '@/api/lecturers.api';
@@ -30,6 +32,8 @@ export default function LecturerListPage() {
   const { can } = usePermission();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedLecturer, setSelectedLecturer] = useState<Lecturer | null>(null);
+  const [searchText, setSearchText] = useState('');
+  const [filterDept, setFilterDept] = useState<number | undefined>();
 
   const { data: summaryData, isLoading: summaryLoading } = useQuery({
     queryKey: ['lecturers-summary'],
@@ -118,14 +122,18 @@ export default function LecturerListPage() {
       sort_by?: string;
       sort_order?: 'asc' | 'desc';
     }) => {
-      const res = await lecturersApi.getLecturers(params);
+      const res = await lecturersApi.getLecturers({
+        ...params,
+        search: searchText || undefined,
+        department_id: filterDept,
+      });
       return res as {
         success: boolean;
         data: Lecturer[];
         pagination: Pagination | null;
       };
     },
-    []
+    [searchText, filterDept]
   );
 
   const columns = [
@@ -227,18 +235,37 @@ export default function LecturerListPage() {
         </Row>
       ) : null}
 
+      <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col xs={24} sm={12} md={8}>
+          <Input
+            placeholder="Tìm kiếm..."
+            prefix={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            allowClear
+          />
+        </Col>
+        <Col xs={24} sm={12} md={8}>
+          <Select
+            placeholder="Khoa/Bộ môn"
+            allowClear
+            style={{ width: '100%' }}
+            value={filterDept}
+            onChange={setFilterDept}
+            options={departments.map((d) => ({ label: d.name, value: d.id }))}
+          />
+        </Col>
+      </Row>
+
       <DataGrid
         columns={columns}
         fetchData={fetchLecturers}
         queryKey="lecturers"
+        queryParams={{
+          search: searchText || undefined,
+          department_id: filterDept,
+        }}
         permissionPrefix="lecturers"
-        actions={
-          can('lecturers.create') && (
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              Thêm giảng viên
-            </Button>
-          )
-        }
       />
 
       <LecturerFormModal

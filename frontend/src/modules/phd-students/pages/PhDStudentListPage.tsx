@@ -13,7 +13,6 @@ import {
   Table,
 } from 'antd';
 import {
-  PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
@@ -378,13 +377,6 @@ export default function PhDStudentListPage() {
           major: filterMajor,
         }}
         permissionPrefix="phd_students"
-        actions={
-          can('phd_students.create') && (
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              Thêm nghiên cứu sinh
-            </Button>
-          )
-        }
       />
 
       <PhDStudentFormModal

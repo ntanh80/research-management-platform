@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
-import { Button, Space, Tag, Popconfirm, message } from 'antd';
+import { Button, Space, Tag, Popconfirm, message, Row, Col, Input } from 'antd';
 import {
-  PlusOutlined,
   EditOutlined,
   DeleteOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { rolesApi } from '@/api/roles.api';
@@ -20,6 +20,7 @@ export default function RoleListPage() {
   const { can } = usePermission();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [searchText, setSearchText] = useState('');
 
   const createMutation = useMutation({
     mutationFn: (data: RoleCreate) => rolesApi.createRole(data),
@@ -93,10 +94,13 @@ export default function RoleListPage() {
       sort_by?: string;
       sort_order?: 'asc' | 'desc';
     }) => {
-      const res = await rolesApi.getRoles(params);
+      const res = await rolesApi.getRoles({
+        ...params,
+        search: searchText || undefined,
+      });
       return res as { success: boolean; data: Role[]; pagination: Pagination | null };
     },
-    []
+    [searchText]
   );
 
   const columns = [
@@ -164,18 +168,24 @@ export default function RoleListPage() {
         onCreate={handleCreate}
       />
 
+      <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+        <Col xs={24} sm={12} md={8}>
+          <Input
+            placeholder="Tìm kiếm..."
+            prefix={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            allowClear
+          />
+        </Col>
+      </Row>
+
       <DataGrid
         columns={columns}
         fetchData={fetchRoles}
         queryKey="roles"
+        queryParams={{ search: searchText || undefined }}
         permissionPrefix="roles"
-        actions={
-          can('roles.create') && (
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              Thêm vai trò
-            </Button>
-          )
-        }
       />
 
       <RoleFormModal
